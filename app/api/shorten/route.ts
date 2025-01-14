@@ -7,6 +7,14 @@ export async function POST(request: NextRequest) {
         // Parse the request body
         const { url } = await request.json();
 
+        // Basic URL validation
+        if (!url || !url.startsWith("http")) {
+            return NextResponse.json(
+                { error: "Invalid URL. Ensure it starts with 'http' or 'https'." },
+                { status: 400 }
+            );
+        }
+
         // Generate a unique short code
         const shortCode = nanoid(8);
 
@@ -14,13 +22,15 @@ export async function POST(request: NextRequest) {
         const shortenedUrl = await prisma.url.create({
             data: {
                 OrignalUrl: url,
-                ShortCode : shortCode
+                ShortCode: shortCode,
             },
         });
 
+        console.log("Generated shortCode:", shortCode);
+
         // Return the created shortCode
         return NextResponse.json({
-            shortCode: shortenedUrl.ShortCode,
+            shortcode: shortenedUrl.ShortCode,
         });
     } catch (error) {
         console.error("Error processing the POST request:", error);
