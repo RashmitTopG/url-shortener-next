@@ -1,10 +1,10 @@
 "use client"
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ShortenForm from "./shortenForm";
 import UrlList from "./urlList";
 
-export default function(){
+export default function UrlContainer(){
 
     const [refresh , setRefresh] = useState<number>(0);
     
