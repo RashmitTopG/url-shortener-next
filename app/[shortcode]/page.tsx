@@ -1,9 +1,15 @@
 import prisma from "@/lib/db";
 import { redirect } from "next/navigation";
 
-export default async function RedirectPage({ params }: { params: { shortcode: string } }) {
-  const { shortcode } = await params;
-  let newUrl: string | undefined; // Declare newUrl outside try-catch
+// Define the type for params as a Promise
+interface RedirectPageProps {
+  params: Promise<{ shortcode: string }>;
+}
+
+export default async function RedirectPage({ params }: RedirectPageProps) {
+  // Await params as it's a promise
+  const { shortcode } = await params; // Destructure after awaiting the promise
+  let newUrl: string | undefined;
 
   try {
     // Log shortcode for debugging
